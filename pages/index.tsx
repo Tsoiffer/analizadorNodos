@@ -7,13 +7,26 @@ import {Product} from "../product/types"
 interface Props {
   products: Product[];
 }
+function CalleYNumero(calle ,numero){
+  let numeroDeCalle = Math.trunc(Number.parseInt(numero.replace(".",""), 10) /100);
+  return (calle +" " + numeroDeCalle );
+} // Esta ok , me devuelve 
+const RecorrerLaLista = (callesConNumero) => {
+  return <li>{callesConNumero.value + "00"}</li>
+} // no se como hacerla andar LPM
 
 const IndexRoute: React.FC<Props> = ({products}) => {
-
-  console.log(...products.map((product)=> product["Calle"])) 
-  return <div>{JSON.stringify(products)}</div>;
+  let callesConNumero = []
+  callesConNumero.push(...products.map((product)=> CalleYNumero(product["Calle"],product["Numero"])))
+  console.log(callesConNumero)
+  callesConNumero = callesConNumero.map((calleConNumero) => <RecorrerLaLista key={callesConNumero.toString()} value={calleConNumero} />)
+  return <div>
+    <ul>{callesConNumero}</ul>
+    <div>{JSON.stringify(products)}</div>
+    </div>;
 };
 
+//todavia No lo programe
 const DirectaFueraDeRango = () =>{
 
 }
