@@ -9,17 +9,23 @@ interface Props {
 }
 function CalleYNumero(calle ,numero){
   let numeroDeCalle = Math.trunc(Number.parseInt(numero.replace(".",""), 10) /100);
-  return (calle +" " + numeroDeCalle );
+  return (calle +" " + numeroDeCalle + "00" );
 } // Esta ok , me devuelve 
 const RecorrerLaLista = (callesConNumero) => {
-  return <li>{callesConNumero.value + "00"}</li>
+  return <li>{callesConNumero.value}</li>
 } // no se como hacerla andar LPM
 
 const IndexRoute: React.FC<Props> = ({products}) => {
+  let contador = 1;
   let callesConNumero = []
-  callesConNumero.push(...products.map((product)=> CalleYNumero(product["Calle"],product["Numero"])))
-  console.log(callesConNumero)
-  callesConNumero = callesConNumero.map((calleConNumero) => <RecorrerLaLista key={callesConNumero.toString()} value={calleConNumero} />)
+  console.log(products)
+  callesConNumero.push (products.map((product)=> {
+      product["Cliente"] =  product["Cliente"] + contador
+      contador++
+    product["Calle"] = CalleYNumero(product["Calle"],product["Numero"]); 
+    product["Numero"] = "" }))
+  console.log(products)
+  callesConNumero = products.map((product) => <RecorrerLaLista key={product["Cliente"]} value={product["Calle"]} />)
   return <div>
     <ul>{callesConNumero}</ul>
     <div>{JSON.stringify(products)}</div>
