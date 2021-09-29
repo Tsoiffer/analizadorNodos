@@ -34,7 +34,7 @@ const IndexRoute: React.FC<Props> = ({clientes}) => {
   //primero reconocemos a que cuadra pertenece cada cliente
   clientes.forEach((cliente)=> { cliente = recnocimientoDeAlturaDeCuadra(cliente)  })
   //luego separamos a los clientes por su afectacion y si mas del 70% de la cuadra se encuentra afectada la guardamos
-  clientesConDirectaBaja = clientes.filter(cliente =>   parseFloat(cliente["Directa"]) < -10 && parseFloat(cliente["Directa"]) != -99 && cliente["Estado"] == "down" && cliente["Calle"] != ""  ) 
+  clientesConDirectaBaja = clientes.filter(cliente =>   parseFloat(cliente["Directa"]) < -10 && cliente["Estado"] == "down" && cliente["Calle"] != ""  ) 
   cuadrasConDirectaBaja = cuadrasFueraDeRango(clientes,clientesConDirectaBaja)
   clientesConDirectaAlta = clientes.filter((cliente)=>  parseFloat(cliente["Directa"]) > 10 && cliente["Estado"] == "down" && cliente["Calle"] != "")
   cuadrasConDirectaAlta = cuadrasFueraDeRango(clientes,clientesConDirectaAlta)
