@@ -28,25 +28,28 @@ const IndexRoute: React.FC<Props> = ({clientes}) => {
   let cuadrasConErroresUs = []
   let clientesConDsTiltElevado = []
   let cuadrasConDsTiltElevado = []
+  let clientesCaidos = []
+  let cuadrasCaidas = []
   
   //primero reconocemos a que cuadra pertenece cada cliente
   clientes.forEach((cliente)=> { cliente = recnocimientoDeAlturaDeCuadra(cliente)  })
   //luego separamos a los clientes por su afectacion y si mas del 70% de la cuadra se encuentra afectada la guardamos
-  clientesConDirectaBaja = clientes.filter(cliente =>   (parseFloat(cliente["Directa"]) < -10)) 
+  clientesConDirectaBaja = clientes.filter(cliente =>   parseFloat(cliente["Directa"]) < -10 && parseFloat(cliente["Directa"]) != -99 && cliente["Estado"] == "down" && cliente["Calle"] != ""  ) 
   cuadrasConDirectaBaja = cuadrasFueraDeRango(clientes,clientesConDirectaBaja)
-  clientesConDirectaAlta = clientes.filter((cliente)=>  parseFloat(cliente["Directa"]) > 10)
+  clientesConDirectaAlta = clientes.filter((cliente)=>  parseFloat(cliente["Directa"]) > 10 && cliente["Estado"] == "down" && cliente["Calle"] != "")
   cuadrasConDirectaAlta = cuadrasFueraDeRango(clientes,clientesConDirectaAlta)
-  clientesConRetornoBajo = clientes.filter((cliente)=>  cliente["Retorno"] < 37)
+  clientesConRetornoBajo = clientes.filter((cliente)=>  cliente["Retorno"] < 37 && cliente["Estado"] == "down" && cliente["Calle"] != "")
   cuadrasConRetornoBajo = cuadrasFueraDeRango(clientes,clientesConRetornoBajo)
-  clientesConRetornoAlto = clientes.filter((cliente)=>  cliente["Retorno"] > 50)
+  clientesConRetornoAlto = clientes.filter((cliente)=>  cliente["Retorno"] > 50 && cliente["Estado"] == "down" && cliente["Calle"] != "")
   cuadrasConRetornoAlto = cuadrasFueraDeRango(clientes,clientesConRetornoAlto)
-  clientesConErroresDs = clientes.filter((cliente)=>  cliente["Ds FecPost"] != "" || cliente["Ds FecPost"] != "")
+  clientesConErroresDs = clientes.filter((cliente)=>  cliente["Ds FecPost"] != "" || cliente["Ds FecPost"] != "" && cliente["Estado"] == "down" && cliente["Calle"] != "")
   cuadrasConErroresDs = cuadrasFueraDeRango(clientes,clientesConErroresDs)
-  clientesConErroresUs = clientes.filter((cliente)=>  cliente["Us FecPre"] != "" || cliente["Us FecPost"] != "")
+  clientesConErroresUs = clientes.filter((cliente)=>  cliente["Us FecPre"] != "" || cliente["Us FecPost"] != "" && cliente["Estado"] == "down" && cliente["Calle"] != "")
   cuadrasConErroresUs = cuadrasFueraDeRango(clientes,clientesConErroresUs)
-  clientesConDsTiltElevado = clientes.filter((cliente)=>  parseFloat(cliente["Tilt"]) > 10)
+  clientesConDsTiltElevado = clientes.filter((cliente)=>  parseFloat(cliente["Tilt"]) > 10 && cliente["Estado"] == "down" && cliente["Calle"] != "")
   cuadrasConDsTiltElevado = cuadrasFueraDeRango(clientes,clientesConDsTiltElevado)
-
+  clientesCaidos = clientes.filter((cliente)=>  cliente["Estado"] == "down" && cliente["Calle"] != "")
+  cuadrasCaidas = cuadrasFueraDeRango(clientes,clientesCaidos)
   
     imprimirEnPAgina = clientes.map((cliente) => <RecorrerLaLista key={cliente["Cliente"]} value={cliente["Calle"]} />)
   return <div>
@@ -72,7 +75,7 @@ const IndexRoute: React.FC<Props> = ({clientes}) => {
     borderRadius={9999}
     justifyContent="center"
     >
-    <Text fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[0]["Nodo cmts"]} con niveles de directa bajo: </Text>
+    <Text fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[2]["Nodo cmts"]} con niveles de directa bajo: </Text>
     <ul>{cuadrasConDirectaBaja}</ul> 
     </Stack><br /> </Grid>
     )}
@@ -83,7 +86,7 @@ const IndexRoute: React.FC<Props> = ({clientes}) => {
     alignItems="center"                      
     borderRadius={9999}
     justifyContent="center">
-    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[0]["Nodo cmts"]} con niveles de directa elevado: </Text>
+    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[2]["Nodo cmts"]} con niveles de directa elevado: </Text>
     <ul>{cuadrasConDirectaAlta}</ul> 
     </Stack><br /> </Grid>
     )}
@@ -94,7 +97,7 @@ const IndexRoute: React.FC<Props> = ({clientes}) => {
     alignItems="center"                      
     borderRadius={9999}
     justifyContent="center">
-    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[0]["Nodo cmts"]} con niveles de retorno bajo: </Text>
+    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[2]["Nodo cmts"]} con niveles de retorno bajo: </Text>
     <ul>{cuadrasConRetornoBajo}</ul> 
     </Stack><br /> </Grid>
     )}
@@ -105,7 +108,7 @@ const IndexRoute: React.FC<Props> = ({clientes}) => {
     alignItems="center"                      
     borderRadius={9999}
     justifyContent="center">
-    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[0]["Nodo cmts"]} con niveles de retorno elevado: </Text>
+    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[2]["Nodo cmts"]} con niveles de retorno elevado: </Text>
     <ul>{cuadrasConRetornoAlto}</ul>  
     </Stack><br /> </Grid>
     )}
@@ -116,7 +119,7 @@ const IndexRoute: React.FC<Props> = ({clientes}) => {
     alignItems="center"                      
     borderRadius={9999}
     justifyContent="center">
-    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[0]["Nodo cmts"]} con errores Ds: </Text>
+    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[2]["Nodo cmts"]} con errores Ds: </Text>
     <ul>{cuadrasConErroresDs}</ul> 
     </Stack><br /> </Grid>
     )}
@@ -127,7 +130,7 @@ const IndexRoute: React.FC<Props> = ({clientes}) => {
     alignItems="center"                      
     borderRadius={9999}
     justifyContent="center">
-    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[0]["Nodo cmts"]} con errores Us: </Text>
+    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[2]["Nodo cmts"]} con errores Us: </Text>
     <ul>{cuadrasConErroresUs}</ul>  
     </Stack> <br /></Grid>
     )}
@@ -138,11 +141,20 @@ const IndexRoute: React.FC<Props> = ({clientes}) => {
     alignItems="center"                      
     borderRadius={9999}
     justifyContent="center">
-    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[0]["Nodo cmts"]} con Ds Tilt eleevado: </Text>
+    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[2]["Nodo cmts"]} con Ds Tilt eleevado: </Text>
     <ul>{cuadrasConDsTiltElevado}</ul>  
     </Stack> <br /></Grid>
     )}
-    
+    {Boolean(cuadrasCaidas.length) && (
+    <Grid> <Stack 
+    backgroundColor="gray.100"
+    alignItems="center"                      
+    borderRadius={9999}
+    justifyContent="center">
+    <Text  fontWeight="500"> Se verifican las siguientes cuadras del nodo {clientes[2]["Nodo cmts"]} caidas </Text>
+    <ul>{cuadrasCaidas}</ul>  
+    </Stack> <br /></Grid>
+    )}
 
     {/*  <ul>{imprimirEnPAgina}</ul>*/}
     {/* <div>{JSON.stringify(clientes)}</div> */}
