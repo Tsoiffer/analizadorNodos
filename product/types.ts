@@ -4,8 +4,8 @@ export interface Product{
     nodo: string;
     cliente: number;
     calle: string;
-    numero: number;
-    ploss: number;
+    numero: string;
+    ploss: string;
     directa: number;
     retorno: number;
     dsFecPre: string;
