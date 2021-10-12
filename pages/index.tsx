@@ -42,7 +42,7 @@ const IndexRoute: React.FC<Props> = ({clientes}) => {
   cuadrasConRetornoBajo = cuadrasFueraDeRango(clientes,clientesConRetornoBajo)
   clientesConRetornoAlto = clientes.filter((cliente)=>  cliente["Retorno"] > 50 && cliente["Estado"] != "down" && cliente["Calle"] != "")
   cuadrasConRetornoAlto = cuadrasFueraDeRango(clientes,clientesConRetornoAlto)
-  clientesConErroresDs = clientes.filter((cliente)=>  (cliente["Ds FecPost"] != "" || cliente["Ds FecPost"] != "") && cliente["Estado"] != "down" && cliente["Calle"] != "")
+  clientesConErroresDs = clientes.filter((cliente)=>  (cliente["Ds FecPre"] != "" || cliente["Ds FecPost"] != "") && cliente["Estado"] != "down" && cliente["Calle"] != "")
   cuadrasConErroresDs = cuadrasFueraDeRango(clientes,clientesConErroresDs)
   clientesConErroresUs = clientes.filter((cliente)=>  (cliente["Us FecPre"] != "" || cliente["Us FecPost"] != "") && cliente["Estado"] != "down" && cliente["Calle"] != "")
   cuadrasConErroresUs = cuadrasFueraDeRango(clientes,clientesConErroresUs)
